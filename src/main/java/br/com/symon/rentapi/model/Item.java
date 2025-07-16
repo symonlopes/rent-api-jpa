@@ -4,6 +4,7 @@ package br.com.symon.rentapi.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +41,11 @@ public class Item {
     @NotEmpty(message = "You must have at least one image for the item.")
     @Builder.Default
     private Set<ItemImage> images =  new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", nullable = false)
+    @NotNull(message = "Category cannot be null.")
+    private ItemCategory category;
 
 //    @Builder.Default
 //    private Set<Tag> tags =  new HashSet<>();

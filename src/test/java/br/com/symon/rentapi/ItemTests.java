@@ -1,5 +1,7 @@
 package br.com.symon.rentapi;
 
+import br.com.symon.rentapi.api.ItemApi;
+import br.com.symon.rentapi.api.ItemCategoryApi;
 import br.com.symon.rentapi.model.Item;
 import br.com.symon.rentapi.utils.TestUtils;
 import lombok.extern.log4j.Log4j2;
@@ -25,7 +27,9 @@ class ItemTests {
     @Autowired
     private TestUtils utils;
     @Autowired
-    private br.com.symon.rentapi.api.ItemApi itemApi;
+    private ItemApi itemApi;
+    @Autowired
+    private ItemCategoryApi itemCategoryApi;
 //	@Autowired
 //	private CategoryApi categoryApi;
 //	@Autowired
@@ -33,15 +37,15 @@ class ItemTests {
 
     @Test
     public void shouldCreateItemSuccessfully() throws Exception {
-
-//		var category = categoryApi.createNewCategory();
 //
 //		var tag_1 = tagApi.createNewTag();
 //		var tag_2 = tagApi.createNewTag();
 
         var item = itemApi.mockItem();
 
-//		item.setCategoryId(category.getId());
+        var category = itemCategoryApi.createNewCategory();
+		item.setCategory(category);
+
 //		item.getTags().add(TagRef.builder().tagId(tag_1.getId()).build());
 //		item.getTags().add(TagRef.builder().tagId(tag_2.getId()).build());
 
@@ -57,8 +61,9 @@ class ItemTests {
         assertNotNull(returnedItem.getId(), "Item IOD must not be null");
         assertEquals(item.getName(), returnedItem.getName(), "Name must match");
         assertEquals(item.getDetails(), returnedItem.getDetails(), "Details must match");
+        assertEquals(category.getId(), item.getCategory().getId(), "Category ID must match");
         //assertEquals(2, item.getTags().size(), "Item must have two tags");
-        //assertEquals(category.getId(), item.getCategoryId(), "Category ID must match");
+
 
 
     }
