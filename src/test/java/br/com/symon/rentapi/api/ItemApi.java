@@ -36,8 +36,6 @@ public class ItemApi {
         return validItem;
     }
 
-
-
     public Item createNewItem() throws Exception {
 
         var item = mockItem();
