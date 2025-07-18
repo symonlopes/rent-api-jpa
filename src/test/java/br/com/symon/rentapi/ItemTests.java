@@ -17,7 +17,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.UUID;
 
@@ -62,7 +61,7 @@ class ItemTests {
         var category = itemCategoryApi.createNewCategory();
         item.setCategory(category);
 
-        var result = doPost(item)
+        var result = itemApi.postItem(item)
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -87,7 +86,7 @@ class ItemTests {
         var category = itemCategoryApi.createNewCategory();
         item.setCategory(category);
 
-        var result = doPost(item)
+        var result = itemApi.postItem(item)
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -107,7 +106,7 @@ class ItemTests {
         item.setCategory(category);
         item.setImages(null);
 
-        doPost(item)
+        itemApi.postItem(item)
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
@@ -122,7 +121,7 @@ class ItemTests {
         var category = itemCategoryApi.createNewCategory();
         itemToCreate.setCategory(category);
 
-        doPost(itemToCreate)
+        itemApi.postItem(itemToCreate)
                 .andExpect(status().isCreated())
                 .andReturn();
     }
@@ -137,7 +136,7 @@ class ItemTests {
         var category = itemCategoryApi.createNewCategory();
         itemToCreate.setCategory(category);
 
-        doPost(itemToCreate)
+        itemApi.postItem(itemToCreate)
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
@@ -152,19 +151,12 @@ class ItemTests {
         var category = itemCategoryApi.createNewCategory();
         itemToCreate.setCategory(category);
 
-        doPost(itemToCreate)
+        itemApi.postItem(itemToCreate)
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
     }
 
-
-    private ResultActions doPost(Item item) throws Exception {
-        return mockMvc.perform(post("/api/item")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + utils.createAdminJwtToken())
-                .content(utils.getObjectMapper().writeValueAsString(item)));
-    }
 
     @Test
     public void shouldGetItemSuccessfully() throws Exception {
@@ -174,7 +166,7 @@ class ItemTests {
         var category = itemCategoryApi.createNewCategory();
         itemToCreate.setCategory(category);
 
-        var result = doPost(itemToCreate)
+        var result = itemApi.postItem(itemToCreate)
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -214,7 +206,7 @@ class ItemTests {
         var category = itemCategoryApi.createNewCategory();
         itemToCreate.setCategory(category);
 
-        var createResult = doPost(itemToCreate)
+        var createResult = itemApi.postItem(itemToCreate)
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -249,7 +241,7 @@ class ItemTests {
         var category = itemCategoryApi.createNewCategory();
         initialItem.setCategory(category);
 
-        var createResult = doPost(initialItem)
+        var createResult = itemApi.postItem(initialItem)
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -286,7 +278,7 @@ class ItemTests {
         initialItem.getTags().add(tag_1);
         initialItem.getTags().add(tag_2);
 
-        var createResult = doPost(initialItem)
+        var createResult = itemApi.postItem(initialItem)
                 .andExpect(status().isCreated())
                 .andReturn();
 

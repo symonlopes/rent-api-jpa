@@ -1,15 +1,15 @@
 package br.com.symon.rentapi.api;
 
+import br.com.symon.rentapi.model.Item;
+import br.com.symon.rentapi.model.ItemImage;
 import br.com.symon.rentapi.utils.TestUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import br.com.symon.rentapi.model.ItemImage;
-import br.com.symon.rentapi.model.Item;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,6 +22,8 @@ public class ItemApi {
     private final MockMvc mockMvc;
     private final ObjectMapper objectMapper;
     private final TestUtils testUtils;
+    private final TestUtils utils;
+    private final ItemCategoryApi itemCategoryApi;
 
     public Item mockItem() {
 
@@ -40,7 +42,10 @@ public class ItemApi {
 
         var item = mockItem();
 
-        MvcResult result = mockMvc.perform(post("/api/items")
+        var category = itemCategoryApi.createNewCategory();
+        item.setCategory(category);
+
+        var result = mockMvc.perform(post("/api/item")
                         .header("Authorization", "Bearer " + testUtils.createAdminJwtToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(testUtils.getObjectMapper().writeValueAsString(item)))
@@ -48,5 +53,12 @@ public class ItemApi {
                 .andReturn();
 
         return testUtils.parseResponse(result, Item.class);
+    }
+
+    public ResultActions postItem(Item item) throws Exception {
+        return mockMvc.perform(post("/api/item")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + utils.createAdminJwtToken())
+                .content(utils.getObjectMapper().writeValueAsString(item)));
     }
 }
