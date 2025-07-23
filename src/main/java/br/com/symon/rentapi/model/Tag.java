@@ -6,12 +6,12 @@ import lombok.*;
 import java.util.UUID;
 
 @Builder
-@Data
 @Table(name = "tag")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Getter
 public class Tag {
 
     @Id

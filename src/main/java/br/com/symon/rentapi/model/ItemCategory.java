@@ -9,11 +9,11 @@ import lombok.*;
 import java.util.UUID;
 
 @Builder
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "category")
 @Entity
+@Getter
 @EqualsAndHashCode(of = "id")
 public class ItemCategory {
 

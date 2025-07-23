@@ -13,11 +13,12 @@ import java.util.Set;
 import java.util.UUID;
 
 @Builder(toBuilder = true)
-@Data
 @Table(name = "item")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
+@Setter
 @EqualsAndHashCode(of = "id")
 public class Item {
 

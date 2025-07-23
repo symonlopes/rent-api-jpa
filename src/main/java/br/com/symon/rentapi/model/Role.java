@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Builder
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-//@Table(name = "role")
 public class Role {
 
     @Id
